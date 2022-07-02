@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 // auth 中间件代表需要登录，verified中间件代表需要经过邮箱验证
+//Route::group(['middleware' => ['auth', 'verified']], function() {
 Route::group(['middleware' => ['auth']], function() {
     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
     Route::get('user_addresses/create', 'UserAddressesController@create')->name('user_addresses.create');
@@ -39,8 +40,15 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('orders', 'OrdersController@index')->name('orders.index');
 
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
+    Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
+
+    // 支付宝页面回调
+    Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
 });
 
 Route::redirect('/', '/products')->name('root');
 Route::get('products', 'ProductsController@index')->name('products.index');
 Route::get('products/{product}', 'ProductsController@show')->name('products.show');
+
+// 支付宝服务端回调
+Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');

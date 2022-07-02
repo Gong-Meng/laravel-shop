@@ -18,6 +18,9 @@
   </div>
   @include('layouts._footer')
 </div>
+@if (config('app.debug'))
+  @include('sudosu::user-selector')
+@endif
 <!-- JS 脚本 -->
 <script src="{{ mix('js/app.js') }}"></script>
 @yield('scriptsAfterJs')

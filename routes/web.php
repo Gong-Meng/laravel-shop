@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     // 支付宝页面回调
     Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
+    // 微信支付服务端回调
+    Route::get('payment/{order}/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
 });
 
 Route::redirect('/', '/products')->name('root');
@@ -52,3 +54,5 @@ Route::get('products/{product}', 'ProductsController@show')->name('products.show
 
 // 支付宝服务端回调
 Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
+// 微信支付服务端回调
+Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');

@@ -235,4 +235,5 @@ return [
     // 订单延迟时间
     'order_ttl' => 1800,
 
+    'ngrok_url' => env('NGROK_URL'),
 ];

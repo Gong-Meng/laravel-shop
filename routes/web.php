@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function() {
     //分期支付
     Route::post('payment/{order}/installment', 'PaymentController@payByInstallment')->name('payment.installment');
     Route::get('installments', 'InstallmentsController@index')->name('installments.index');
+    Route::get('installments/{installment}', 'InstallmentsController@show')->name('installments.show');
 });
 
 Route::redirect('/', '/products')->name('root');

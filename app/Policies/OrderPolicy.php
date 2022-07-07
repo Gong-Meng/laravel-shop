@@ -2,16 +2,16 @@
 
 namespace App\Policies;
 
+use App\Models\Order;
 use App\Models\User;
-use App\Models\Installment;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class InstallmentPolicy
+class OrderPolicy
 {
     use HandlesAuthorization;
 
-    public function own(User $user, Installment $installment)
+    public function own(User $user, Order $order)
     {
-        return $installment->user_id == $user->id;
+        return $order->user_id == $user->id;
     }
 }

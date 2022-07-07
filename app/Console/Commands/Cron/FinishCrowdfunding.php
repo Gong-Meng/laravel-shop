@@ -10,23 +10,23 @@ class FinishCrowdfunding extends Command
 {
     protected $signature = 'cron:finish-crowdfunding';
 
-    protected $description = '½áÊøÖÚ³ï';
+    protected $description = 'ç»“æŸä¼—ç­¹';
 
     public function handle()
     {
         CrowdfundingProduct::query()
-            // ÖÚ³ï½áÊøÊ±¼äÔçÓÚµ±Ç°Ê±¼ä
+            // ä¼—ç­¹ç»“æŸæ—¶é—´æ—©äºŽå½“å‰æ—¶é—´
             ->where('end_at', '<=', Carbon::now())
-            // ÖÚ³ï×´Ì¬ÎªÖÚ³ïÖÐ
+            // ä¼—ç­¹çŠ¶æ€ä¸ºä¼—ç­¹ä¸­
             ->where('status', CrowdfundingProduct::STATUS_FUNDING)
             ->get()
             ->each(function (CrowdfundingProduct $crowdfunding) {
-                // Èç¹ûÖÚ³ïÄ¿±ê½ð¶î´óÓÚÊµ¼ÊÖÚ³ï½ð¶î
+                // å¦‚æžœä¼—ç­¹ç›®æ ‡é‡‘é¢å¤§äºŽå®žé™…ä¼—ç­¹é‡‘é¢
                 if ($crowdfunding->target_amount > $crowdfunding->total_amount) {
-                    // µ÷ÓÃÖÚ³ïÊ§°ÜÂß¼­
+                    // è°ƒç”¨ä¼—ç­¹å¤±è´¥é€»è¾‘
                     $this->crowdfundingFailed($crowdfunding);
                 } else {
-                    // ·ñÔòµ÷ÓÃÖÚ³ï³É¹¦Âß¼­
+                    // å¦åˆ™è°ƒç”¨ä¼—ç­¹æˆåŠŸé€»è¾‘
                     $this->crowdfundingSucceed($crowdfunding);
                 }
             });
@@ -34,7 +34,7 @@ class FinishCrowdfunding extends Command
 
     protected function crowdfundingSucceed(CrowdfundingProduct $crowdfunding)
     {
-        // Ö»Ðè½«ÖÚ³ï×´Ì¬¸ÄÎªÖÚ³ï³É¹¦¼´¿É
+        // åªéœ€å°†ä¼—ç­¹çŠ¶æ€æ”¹ä¸ºä¼—ç­¹æˆåŠŸå³å¯
         $crowdfunding->update([
             'status' => CrowdfundingProduct::STATUS_SUCCESS,
         ]);
@@ -42,7 +42,7 @@ class FinishCrowdfunding extends Command
 
     protected function crowdfundingFailed(CrowdfundingProduct $crowdfunding)
     {
-        // ½«ÖÚ³ï×´Ì¬¸ÄÎªÖÚ³ïÊ§°Ü
+        // å°†ä¼—ç­¹çŠ¶æ€æ”¹ä¸ºä¼—ç­¹å¤±è´¥
         $crowdfunding->update([
             'status' => CrowdfundingProduct::STATUS_FAIL,
         ]);

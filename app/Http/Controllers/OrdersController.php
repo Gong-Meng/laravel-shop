@@ -17,9 +17,19 @@ use App\Events\OrderReviewed;
 use App\Http\Requests\ApplyRefundRequest;
 use App\Models\CouponCode;
 use App\Http\Requests\CrowdFundingOrderRequest;
+use App\Http\Requests\SeckillOrderRequest;
 
 class OrdersController extends Controller
 {
+
+    public function seckill(SeckillOrderRequest $request, OrderService $orderService)
+    {
+        $user    = $request->user();
+        $address = UserAddress::find($request->input('address_id'));
+        $sku     = ProductSku::find($request->input('sku_id'));
+
+        return $orderService->seckill($user, $address, $sku);
+    }
 
     public function review(Order $order)
     {

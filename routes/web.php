@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 //Auth::routes(['verify' => true]);
 Auth::routes();
 
+Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
+
 // auth 中间件代表需要登录，verified中间件代表需要经过邮箱验证
 //Route::group(['middleware' => ['auth', 'verified']], function() {
 Route::group(['middleware' => ['auth']], function() {
@@ -64,8 +66,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('installments/alipay/return', 'InstallmentsController@alipayReturn')->name('installments.alipay.return');
 
     Route::get('installments/{installment}/wechat', 'InstallmentsController@payByWechat')->name('installments.wechat');
-
-    Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
 });
 
 Route::redirect('/', '/products')->name('root');
